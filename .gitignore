@@ -1,0 +1,59 @@
+# ==================== .gitignore - Atomic - Brick is Structure - 206 Rules Where Needed - No secret leak front page - Rule 60 Secrets Management ====================
+# Never commit secrets - Rule 60 Secrets Management - Never commit .env sk_ only Edge Function - No leak front page - Atomic
+
+# Secrets - Never commit - Rule 60 + 202 + 206 - No secret leak front page
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+*secret*
+*sk_*
+*SQUAD_SECRET*
+*SERVICE_ROLE*
+*SUPABASE_SERVICE*
+
+# Supabase - Local - Keep remote only
+.supabase/
+supabase/.temp/
+supabase/.branches/
+
+# Node - If you use npm/npx
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# OS - Windows - Mac
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.temp
+
+# IDE - VS Code - Keep clean
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build - Dist
+dist/
+build/
+out/
+
+# Keep these - Never ignore - Important - Atomic
+!pay.html
+!index.html
+!app.js
+!supabase.js
+!supabase/functions/*/index.ts
+!.github/workflows/deploy.yml
+!README.md
+!logo.png
+
+# No secret leak front page - Check git status before push - git status must not show sk_ or service_role - Only anon key safe public eyJ...4m-cACcs... - Rule 60 + 202 + 206 - Atomic - Brick is structure

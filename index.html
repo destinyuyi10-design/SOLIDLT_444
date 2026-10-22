@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SOLID EDUCATION CENTRE</title>
+
+  <style>
+    /* ====== CONFIG - No Magic Values ====== */
+    :root {
+      --bg-main: #121212;
+      --bg-card: #1E1E1E;
+      --bg-hover: #2A2A2A;
+      --border: #2A2A2A;
+      --text-main: #ffffff;
+      --text-muted: #8A8A8A;
+      --text-faint: #6B6B6B;
+      --text-soft: #A0A0A0;
+      --brand: #FF5E2D;
+      --brand-dim: #3a2015;
+      --green-bg: #1a2e1a;
+      --green-text: #4CAF50;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --radius-sm: 8px;
+      --header-h: 72px;
+      --sidebar-w: 280px;
+    }
+
+    /* ====== RESET ====== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg-main);
+      color: var(--text-main);
+    }
+
+    /* ====== HEADER ====== */
+    .header {
+      height: var(--header-h);
+      background: var(--bg-main);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+    }
+
+    .logo-side {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-side img {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      background: white;
+      border-radius: var(--radius-sm);
+      padding: 2px;
+    }
+
+    .logo-text h1 {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      line-height: 1;
+    }
+
+    .logo-text p {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      text-transform: uppercase;
+    }
+
+    .search-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 10px 16px;
+      width: 380px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .search-box input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-main);
+      width: 100%;
+      font-size: 13px;
+    }
+
+    .search-box input::placeholder { color: var(--text-faint); }
+
+    .admin-side {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .bell {
+      width: 38px;
+      height: 38px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .admin {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-avatar {
+      width: 32px;
+      height: 32px;
+      background: var(--brand);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    /* ====== LAYOUT ====== */
+    .main {
+      display: flex;
+      padding: 16px;
+      gap: 16px;
+    }
+
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100vh - 104px);
+    }
+
+    .menu-label {
+      color: var(--text-faint);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 8px 12px;
+      margin-bottom: 12px;
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      font-size: 14px;
+      color: var(--text-soft);
+    }
+
+    .nav-link:hover { background: var(--bg-hover); color: white; }
+    .nav-link.active { background: var(--brand); color: white; font-weight: 600; }
+
+    .bottom { margin-top: auto; }
+    .divider { height: 1px; background: var(--border); margin: 16px 0; }
+    .version { color: #555; font-size: 11px; padding: 0 14px; margin-top: 10px; }
+
+    .content { flex: 1; }
+
+    /* ====== CARDS ====== */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .card-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .card-label { color: var(--text-muted); font-size: 12px; margin-bottom: 6px; }
+    .card-value { font-size: 26px; font-weight: 800; color: white; }
+    .card-sub { font-size: 11px; color: var(--text-faint); margin-top: 6px; }
+
+    .badge {
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 20px;
+    }
+
+    .badge-green { color: var(--green-text); background: var(--green-bg); }
+    .badge-orange { color: var(--brand); background: var(--brand-dim); }
+    .badge-muted { color: var(--text-muted); }
+
+    /* ====== TABLE ====== */
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .table thead {
+      color: var(--text-muted);
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .table th, .table td { padding: 10px; }
+
+    /* ====== MODAL ====== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      align-items: center;
+      justify-content: center;
+      z-index: 99;
+    }
+
+    .modal-overlay.is-open { display: flex; }
+
+    .modal {
+      background: var(--bg-card);
+      padding: 20px;
+      border-radius: 12px;
+      width: 320px;
+      border: 1px solid var(--border);
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 8px;
+      background: var(--bg-main);
+      border: 1px solid var(--border);
+      color: white;
+      border-radius: var(--radius-sm);
+    }
+
+    .btn {
+      border: none;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn-primary { background: var(--brand); color: white; }
+    .btn-full { width: 100%; padding: 10px; }
+
+    .hint {
+      font-size: 10px;
+      color: var(--text-faint);
+      text-align: center;
+      margin-top: 8px;
+    }
+  </style>
+  <!-- POLISH - Rule 15 + 30 - ADDED ONLY, NO TOUCH ABOVE -->
+  <style>
+    .skeleton{background:linear-gradient(90deg,var(--bg-card)25%,var(--bg-hover)50%,var(--bg-card)75%);background-size:200% 100%;animation:shimmer 1.2s infinite;border-radius:6px;min-height:14px;padding:8px}
+    @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+    #errorBoundary{display:none;background:var(--brand-dim);border:1px solid var(--brand);padding:12px 16px;border-radius:10px;margin:16px;font-size:13px}
+    #errorBoundary.is-visible{display:block}
+  </style>
+</head>
+<body>
+  <!-- POLISH BRICK - Error Boundary - ADDED ONLY -->
+  <div id="errorBoundary" role="alert"><strong>App notice:</strong> <span id="errorMsg">Loading SOLIDLT_444...</span></div>
+
+  <!-- YOUR WORKING HEADER - 100% INTACT -->
+  <header class="header">
+    <div class="logo-side">
+      <img src="logo.png" alt="SOLID logo" />
+      <div class="logo-text">
+        <h1>SOLID EDUCATION CENTRE</h1>
+        <p>School Management • SOLIDLT_444</p>
+      </div>
+    </div>
+
+    <label class="search-box" for="globalSearch" aria-label="Search">
+      <span aria-hidden="true" style="color:var(--text-faint);">⌕</span>
+      <input id="globalSearch" type="text" placeholder="Search students, payments, attendance..." />
+    </label>
+
+    <div class="admin-side">
+      <button class="bell" aria-label="Notifications">🔔</button>
+      <div class="admin">
+        <div class="admin-avatar">A</div>
+        <span style="font-size:14px;">Admin</span>
+        <span style="color:var(--text-faint);">⌄</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="main">
+    <aside class="sidebar">
+      <p class="menu-label">Menu</p>
+      <nav class="nav" aria-label="Main menu">
+        <a href="#" class="nav-link active" id="navDashboardBtn"><span>◫</span> Dashboard</a>
+        <a href="#" class="nav-link"><span>👥</span> Students (SLT/00)</a>
+        <a href="#" class="nav-link" id="navFeesBtn"><span>💳</span> Fees Setup</a>
+        <a href="#" class="nav-link" id="navPaymentsBtn"><span>💳</span> Payments</a>
+        <a href="#" class="nav-link"><span>📅</span> Attendance</a>
+      </nav>
+
+      <div class="bottom">
+        <div class="divider"></div>
+        <a href="#" class="nav-link"><span>⚙</span> Settings</a>
+        <p class="version">v2.1.0 • SOLIDLT_444 • PRO FIX</p>
+      </div>
+    </aside>
+
+    <main class="content">
+       <section class="cards-grid">
+        <div class="card">
+          <div class="card-top">
+            <div class="card-icon" style="background:var(--bg-hover);">👥</div>
+            <span class="badge badge-green">↑ 12%</span>
+          </div>
+          <p class="card-label">Total Students</p>
+          <h2 class="card-value" id="totalStudents">0</h2>
+          <p class="card-sub">SLT/001 - SLT/...</p>
+        </div>
+
+        <div class="card">
+          <div class="card-top">
+            <div class="card-icon" style="background:var(--bg-hover);">💰</div>
+            <span class="badge badge-green">↑ 8%</span>
+          </div>
+          <p class="card-label">Total Collected</p>
+          <h2 class="card-value" id="totalCollected">₦0</h2>
+          <p class="card-sub">All payments</p>
+        </div>
+
+        <div class="card">
+          <div class="card-top">
+            <div class="card-icon" style="background:var(--brand-dim);">⚠</div>
+            <span class="badge badge-orange">Attention</span>
+          </div>
+          <p class="card-label">Still Owing</p>
+          <h2 class="card-value" id="totalOwing" style="color:var(--brand);">₦0</h2>
+          <p class="card-sub">Outstanding balance</p>
+        </div>
+
+        <div class="card">
+          <div class="card-top">
+            <div class="card-icon" style="background:var(--bg-hover);">✓</div>
+            <span class="badge badge-muted">Today</span>
+          </div>
+          <p class="card-label">Present Today</p>
+          <h2 class="card-value" id="totalPresent">0</h2>
+          <p class="card-sub">Attendance marked</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-top">
+          <h3>Students List</h3>
+          <button id="openModalBtn" class="btn btn-primary">+ Add Student</button>
+        </div>
+
+        <table class="table" aria-label="Students">
+            <thead>
+            <tr>
+              <th>Reg No</th>
+              <th>Name / Gender / Phone / Email</th>
+              <th>Program</th>
+              <th>Year Entry</th>
+              <th>Status</th>
+              <th>Address</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+                  <tbody id="studentsBody">
+            <tr><td colspan="6"><div class="skeleton">Loading students from Supabase students table...</div></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- BRICK 3B - 4 CARD FEES BOARD - MATCH solidlt_fees_dashboard.jpg - Rule 5,8,15,37,42 -->
+      <section class="card" id="feesSection" style="display:none">
+        <div class="card-top" style="flex-wrap:wrap;gap:12px">
+          <div>
+            <h3 style="font-size:24px;font-weight:800;letter-spacing:0.5px">Fees (Fee Structure)</h3>
+            <small style="color:var(--text-faint)">Boss sets fee per program per session • Auto reflects for students • <span id="validityHint">1 Month validity</span> - Rule 8 No Magic</small>
+          </div>
+          <button id="openFeeModalBtn" class="btn btn-primary" style="background:var(--brand);padding:10px 18px;font-weight:700">+ Set New Session Fee</button>
+        </div>
+
+        <!-- 4 CARDS GRID - Total Fee Plans 8 + WAEC ₦45k + JAMB ₦60k + NECO ₦40k - auto reflect - like image -->
+        <div class="cards-grid" id="feesCardsGrid" style="margin-top:18px">
+          <div class="card" style="background:var(--bg-card);border:1px solid var(--border)">
+            <div class="card-top"><div class="card-icon" style="background:#ff6a2d25;color:#ff6a2d">📋</div><span class="badge" style="background:var(--bg-hover);color:var(--text-muted)">Plans</span></div>
+            <p class="card-label">Total Fee Plans</p><h2 class="card-value" id="totalFeePlans">0</h2><p class="card-sub">All programs</p>
+          </div>
+          <div class="card" style="background:var(--bg-card);border:1px solid var(--border)">
+            <div class="card-top"><div class="card-icon" style="background:#2d5aff25;color:#2d5aff">🎓</div><span class="badge" style="background:#2d5aff20;color:#2d5aff">WAEC</span></div>
+            <p class="card-label">WAEC Fee</p><h2 class="card-value" id="waecFeeAmt">₦0</h2><p class="card-sub">2025/2026 session</p>
+          </div>
+          <div class="card" style="background:var(--bg-card);border:1px solid var(--border)">
+            <div class="card-top"><div class="card-icon" style="background:#ff5e2d25;color:#ff5e2d">📝</div><span class="badge" style="background:#ff5e2d20;color:#ff5e2d">JAMB</span></div>
+            <p class="card-label">JAMB Fee</p><h2 class="card-value" id="jambFeeAmt">₦0</h2><p class="card-sub">2025/2026 session</p>
+          </div>
+          <div class="card" style="background:var(--bg-card);border:1px solid var(--border)">
+            <div class="card-top"><div class="card-icon" style="background:#0abf5325;color:#0abf53">✅</div><span class="badge" style="background:#0abf5320;color:#0abf53">NECO</span></div>
+            <p class="card-label">NECO Fee</p><h2 class="card-value" id="necoFeeAmt">₦0</h2><p class="card-sub">2025/2026 session</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:18px;padding:0;overflow:hidden">
+          <table class="table" aria-label="Fees Structure">
+            <thead><tr><th>SESSION</th><th>PROGRAM</th><th>AMOUNT ₦</th><th>DURATION</th><th>STUDENTS AFFECTED</th><th>STATUS</th><th>LAST UPDATED</th><th>ACTIONS</th></tr></thead>
+            <tbody id="feesBody"><tr><td colspan="8"><div class="skeleton">Loading fees - Fee Structure board - 4 cards...</div></td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- BRICK 4A - PAYMENTS DASHBOARD - API + WEBHOOK URL - 4 CARDS EASY EDUCATION WORD - MONIEPOINT BUSINESS - AUTO ID FOLLOW NO TYPING - Rule 5,8,9,37 -->
+      <section class="card" id="paymentsSection" style="display:none">
+        <div class="card-top" style="flex-wrap:wrap;gap:12px">
+          <div>
+            <h3 style="font-size:24px;font-weight:800;letter-spacing:0.5px">Payments (Moniepoint Auto via SLT ID)</h3>
+            <small style="color:var(--text-faint)">Central Moniepoint Business Account • <span style="color:#00A4FF;font-weight:700">Moniepoint MFB</span> • Use SLT ID e.g SLT/001 as reference • Secretary gives account • Student pays • Webhook auto credits • Calendar month validity - API + Webhook URL</small>
+            <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+              <span class="badge" style="background:#00A4FF20;color:#00A4FF;border:1px solid #00A4FF30;padding:6px 12px;font-weight:700">Central Moniepoint Account: <span id="centralAccountDisplay">Business Account • Moniepoint MFB • SLT/001 ref</span></span>
+              <span class="badge" style="background:var(--brand-dim);color:var(--brand);padding:6px 10px;font-weight:700;cursor:pointer" id="unmatchedBadge">🔔 Unmatched Payments <span id="unmatchedCount">0</span></span>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <input id="paymentSearch" class="input" placeholder="Search SLT ID, transaction, student..." style="width:260px;margin:0" />
+            <button id="exportPaymentsBtn" class="btn" style="background:var(--bg-hover);border:1px solid var(--border)">Export</button>
+            <button id="openPaymentModalBtn" class="btn btn-primary" style="background:var(--brand);padding:10px 18px;font-weight:700">+ Record Payment</button>
+          </div>
+        </div>
+
+        <!-- 4 CARDS - EASY EDUCATION WORD - Total Collected | Active Students | Owing Students | Expired Fees - NOT SUBSCRIPTION WORD -->
+        <div class="cards-grid" id="paymentsCardsGrid" style="margin-top:18px">
+          <div class="card" style="background:var(--bg-card);border:1px solid var(--border)">
+            <div class="card-top"><div class="card-icon" style="background:#ff6a2d25;color:#ff6a2d">💰</div><span class="badge" style="background:var(--bg-hover);color:var(--text-muted)">This Month</span></div>
+            <p class="card-label">Total Collected</p><h2 class="card-value" id="totalCollectedMonth">₦0</h2><p class="card-sub">Fees collected this month</p>
+          </div>
+          <div class="card" style="background:var(--bg-card);border:1px solid var(--border)">
+            <div class="card-top"><div class="card-icon" style="background:#2d5aff25;color:#2d5aff">👥</div><span class="badge" style="background:#2d5aff20;color:#2d5aff">Paid & Valid</span></div>
+            <p class="card-label">Active Students</p><h2 class="card-value" id="activeStudents">0</h2><p class="card-sub">Paid & fee still valid</p>
+          </div>
+          <div class="card" style="background:var(--bg-card);border:1px solid var(--border)">
+            <div class="card-top"><div class="card-icon" style="background:#ff5e2d25;color:#ff5e2d">⚠</div><span class="badge" style="background:#ff5e2d20;color:#ff5e2d">Balance</span></div>
+            <p class="card-label">Owing Students</p><h2 class="card-value" id="owingStudents" style="color:var(--brand)">0</h2><p class="card-sub">Partial / unpaid balance</p>
+          </div>
+          <div class="card" style="background:var(--bg-card);border:1px solid var(--border)">
+            <div class="card-top"><div class="card-icon" style="background:#ff000014;color:#ff4444">⏰</div><span class="badge" style="background:#ff000014;color:#ff4444">Overdue</span></div>
+            <p class="card-label">Expired Fees</p><h2 class="card-value" id="expiredFees">0</h2><p class="card-sub">Fee validity expired</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:18px;padding:0;overflow:hidden;overflow-x:auto">
+          <table class="table" aria-label="Payments - Moniepoint Auto">
+            <thead><tr><th>DATE PAID</th><th>SLT ID + STUDENT</th><th>PROGRAM</th><th>AMOUNT PAID</th><th>MONIEPOINT REF + NARRATION</th><th>BALANCE</th><th>VALID FROM-TO</th><th>DAYS LEFT</th><th>METHOD</th><th>ACTIONS</th></tr></thead>
+            <tbody id="paymentsBody"><tr><td colspan="10"><div class="skeleton">Loading payments - Moniepoint Business API + Webhook URL - Once pay webhook enter student details...</div></td></tr></tbody>
+          </table>
+        </div>
+            </section>
+    </main>
+  </div>
+
+
+  <div id="addModal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Add Student">
+    <div class="modal">
+      <div class="modal-head">
+        <h3>Add Student</h3>
+        <span id="autoIdPreview" class="badge" style="background:var(--bg-hover); color:var(--brand); font-weight:700;">SLT/001</span>
+      </div>
+            <div id="avatarWrap" style="display:flex;flex-direction:column;align-items:center;gap:8px;margin:12px 0">
+        <img id="photoPreview" alt="Student passport preview" style="display:none;width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--brand)" />
+        <div style="display:flex;gap:8px">
+        <label for="photoInput" class="btn" style="background:var(--bg-hover);border:1px solid var(--border);font-size:12px;cursor:pointer">🖼️ Gallery (2MB->15KB)</label>
+        <button id="openCameraBtn" type="button" class="btn" style="background:var(--brand);border:1px solid var(--border);font-size:12px;color:#fff">📷 Snap Camera Big</button>
+          <button id="removePhotoBtn" type="button" class="btn" style="background:transparent;border:1px solid var(--border);font-size:12px">Remove</button>
+        </div>
+        <input id="photoInput" type="file" accept="image/jpeg,image/png,image/webp" capture="user" style="display:none" />
+        <small style="color:var(--text-faint);font-size:10px">200x200 webp 15KB for 2500 students ~37MB total</small>
+      </div>
+
+      <!-- BRICK 2.5B - BIG CAMERA MODAL - OPTION B - FRONT/BACK 400x400 -->
+<div id="cameraModal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Snap Passport" style="display:none; background:rgba(0,0,0,0.85); z-index:9999">
+  <div class="modal" style="max-width:440px; background:#111; border:1px solid #333">
+    <div class="modal-head" style="display:flex; justify-content:space-between; align-items:center">
+      <h3 style="color:#fff">📷 Snap Passport - 15KB</h3>
+      <button id="closeCameraBtn" type="button" class="btn" style="background:transparent; border:1px solid #444; color:#fff">✕</button>
+    </div>
+    <div style="position:relative; width:100%; aspect-ratio:1/1; background:#000; border-radius:12px; overflow:hidden; margin:12px 0">
+      <video id="cameraVideo" autoplay playsinline muted style="width:100%; height:100%; object-fit:cover; display:block"></video>
+      <canvas id="cameraCanvas" style="display:none"></canvas>
+      <img id="cameraCapturePreview" alt="Captured" style="display:none; width:100%; height:100%; object-fit:cover" />
+    </div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center">
+      <button id="switchCameraBtn" type="button" class="btn" style="background:#222; border:1px solid #444; color:#fff">🔄 Front/Back</button>
+      <button id="captureBtn" type="button" class="btn btn-primary" style="background:var(--brand)">📸 Capture</button>
+      <button id="retakeBtn" type="button" class="btn" style="background:#333; border:1px solid #444; color:#fff; display:none">↩️ Retake</button>
+      <button id="usePhotoBtn" type="button" class="btn btn-primary" style="background:#0a7a0a; display:none">✅ Use Photo 15KB</button>
+    </div>
+    <small style="color:#888; font-size:10px; display:block; text-align:center; margin-top:8px">200x200 webp 15KB auto - track.stop() + bitmap.close() no leak - Rule 62</small>
+  </div>
+</div>
+      <label for="fullName" class="card-label">Full Name</label>
+      <input id="fullName" class="input" placeholder="Full Name *" autocomplete="name" />
+
+      <label for="phoneInput" class="card-label">Phone</label>
+      <input id="phoneInput" class="input" placeholder="Phone Number" autocomplete="tel" />
+
+      <label for="emailInput" class="card-label">Email Address</label>
+      <input id="emailInput" class="input" type="email" placeholder="Email Address (optional)" autocomplete="email" />
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div>
+          <label for="genderSelect" class="card-label">Gender *</label>
+          <select id="genderSelect" class="input"></select>
+        </div>
+        <div>
+          <label for="yearEntrySelect" class="card-label">Year Entry *</label>
+          <select id="yearEntrySelect" class="input"></select>
+        </div>
+      </div>
+
+      <label for="programSelect" class="card-label">Program * - Auto Select No Manual</label>
+      <select id="programSelect" class="input"></select>
+
+      <div id="feeBadge" style="display:none; margin-top:6px; padding:6px 8px; background:var(--bg-hover); border-radius:6px; font-size:12px; font-weight:700; color:var(--brand)">💰 Fee: -</div>
+      <div id="feeBadgeError" style="display:none; margin-top:6px; padding:6px 8px; background:#ff000014; border-radius:6px; font-size:12px; font-weight:700; color:red">⚠️ No fee set for this Program+Year - Go Fees Setup set am first - Rule 21</div>
+      <label for="homeAddress" class="card-label">Home Address</label>
+      <textarea id="homeAddress" class="input" placeholder="Home Address (optional)" rows="2"></textarea>
+
+      <button id="saveBtn" class="btn btn-primary btn-full">Save</button>
+      <p class="hint">ID & QR auto-generate • SOLIDLT_444</p>
+    </div>
+  </div>
+
+  <!-- BRICK 3C - Set Fee Modal - Boss manual input -->
+<div id="feeModal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Set Fee" style="display:none; z-index:9998">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-head"><h3>Set Fee - Manual Amount</h3><span class="badge" style="background:var(--bg-hover)">SOLIDLT_444</span></div>
+        <label class="card-label">Program * - Auto Dropdown</label><select id="feeProgramSelect" class="input"></select>
+        <label class="card-label">Year Entry * - Auto Dropdown</label><select id="feeYearSelect" class="input"></select>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div><label class="card-label">Validity Months * - Dropdown</label><select id="feeValiditySelect" class="input"></select></div>
+      <div><label class="card-label">Grace Days * - Dropdown</label><select id="feeGraceSelect" class="input"></select></div>
+    </div>
+    <label class="card-label">Amount ₦ * - Boss type manually</label><input id="feeAmountInput" class="input" type="number" min="1000" placeholder="e.g 45000 for ₦45,000 WAEC like board" />
+    <div id="feeAmountPreview" style="font-weight:800; color:var(--brand); margin:8px 0">₦0</div>
+    <button id="saveFeeBtn" class="btn btn-primary btn-full">Save Fee</button>
+    <button id="closeFeeModalBtn" type="button" class="btn" style="width:100%; margin-top:8px; background:transparent; border:1px solid var(--border)">Cancel</button>
+  </div>
+ </div>
+
+  <!-- BRICK 4B - PAYMENT MODAL - MANUAL CASH + MONIEPOINT WEBHOOK - AUTO ID FOLLOW NO TYPING - Rule 21,12,23 -->
+
+
+  <!-- BRICK 4B - PAYMENT MODAL - MANUAL CASH + MONIEPOINT WEBHOOK - AUTO ID FOLLOW NO TYPING - Rule 21,12,23 -->
+  <!-- BRICK 4B - PAYMENT MODAL - MANUAL CASH + MONIEPOINT WEBHOOK - AUTO ID FOLLOW NO TYPING - Rule 21,12,23 -->
+  <div id="paymentModal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Record Payment" style="display:none;z-index:9997">
+    <div class="modal" style="max-width:420px">
+      <div class="modal-head"><h3>Record Payment - Auto ID Follow</h3><span class="badge" id="payRegNoBadge" style="background:var(--bg-hover);color:var(--brand);font-weight:800">SLT/001</span></div>
+      <label class="card-label">SLT ID * - Auto - No Typing - Readonly</label><input id="payRegNoInput" class="input" readonly style="background:var(--bg-hover);font-weight:800;color:var(--brand)" placeholder="SLT/001 auto follow" />
+      <label class="card-label">Student Name - Auto</label><input id="payStudentName" class="input" readonly style="background:var(--bg-hover)" />
+      <label class="card-label">Program - Auto</label><input id="payProgram" class="input" readonly style="background:var(--bg-hover)" />
+      <div id="payFeeBadge" style="display:block;margin:8px 0;padding:8px;background:var(--bg-hover);border-radius:6px;font-size:12px;font-weight:700;color:var(--brand)">💰 Fee: ₦0 • 1 Month validity</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div><label class="card-label">Amount Paid ₦ * - Type Amount Only</label><input id="payAmountInput" class="input" type="number" min="1000" placeholder="e.g 20000" /></div>
+        <div><label class="card-label">Method * - Dropdown</label><select id="payMethodSelect" class="input"><option value="Cash">Cash - Hand</option><option value="Moniepoint Auto" selected>Moniepoint Business Webhook</option><option value="Transfer">Transfer</option><option value="POS">POS</option></select></div>
+      </div>
+      <label class="card-label">Narration - Auto - SLT ID</label><input id="payNarrationInput" class="input" readonly style="background:var(--bg-hover)" placeholder="SLT/001 auto" />
+      <div id="payPreview" style="margin:8px 0;padding:8px;background:var(--bg-main);border:1px solid var(--border);border-radius:8px;font-size:12px">
+        <div>Balance: <span id="payBalancePreview" style="font-weight:800">₦0</span></div>
+        <div>Valid: <span id="payValidPreview">- → -</span> • <span id="payDaysPreview">-</span></div>
+        <div>Method: <span id="payMethodPreview" style="color:var(--brand);font-weight:700">Moniepoint Auto</span></div>
+      </div>
+      <div id="moniepointInfoBox" style="display:block;margin:8px 0;padding:10px;background:#00A4FF14;border:1px solid #00A4FF30;border-radius:10px">
+        <div style="font-weight:800;color:#00A4FF;font-size:12px">Moniepoint Business - API + Webhook URL - Once pay webhook enter student details</div>
+        <div style="font-size:11px;margin-top:4px">Account: <span id="payAccountNumber" style="font-weight:800">Business Account • Moniepoint MFB</span> <button id="copyAccountBtn" type="button" class="btn" style="padding:2px 6px;font-size:10px;background:var(--bg-hover);border:1px solid var(--border)">Copy</button></div>
+        <div style="font-size:11px">Narration: <span id="payAccountRef" style="font-weight:800">SLT/001</span> <button id="copyRefBtn" type="button" class="btn" style="padding:2px 6px;font-size:10px;background:var(--bg-hover);border:1px solid var(--border)">Copy</button></div>
+        <div style="font-size:10px;color:var(--text-faint);margin-top:4px">Secretary gives this account to student • Student pays • Webhook auto trap • No typing ID error</div>
+      </div>
+      <button id="savePaymentBtn" class="btn btn-primary btn-full" style="background:var(--brand)">Save Payment - Auto Update ID</button>
+      <button id="closePaymentModalBtn" type="button" class="btn" style="width:100%;margin-top:8px;background:transparent;border:1px solid var(--border)">Cancel</button>
+    </div>
+  </div>
+
+  <!-- BRICK 4C - MONIEPOINT WAIT MODAL - DEY WAIT FOR MONEY TO ENTER ONCE HE ENTER AUTO TRAP SUCCESSFUL - Rule 52,55,50 -->
+  <div id="moniepointWaitModal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Waiting for Moniepoint Payment" style="display:none;z-index:9999;background:rgba(0,0,0,0.85)">
+    <div class="modal" style="max-width:420px;background:#111;border:1px solid #333;text-align:center">
+      <div class="modal-head" style="justify-content:center"><h3 style="color:#fff">⏳ Waiting for Payment...</h3></div>
+      <div style="margin:16px 0">
+        <div style="font-size:48px">💳</div>
+        <div style="font-weight:800;font-size:18px;margin-top:8px" id="waitRegNo">SLT/001</div>
+        <div style="color:var(--text-muted);font-size:12px" id="waitStudentName">DESTINY UYI</div>
+        <div style="margin:12px 0;padding:12px;background:#00A4FF14;border:1px solid #00A4FF30;border-radius:10px">
+          <div style="font-size:11px;color:var(--text-faint)">Dedicated Account - Moniepoint MFB</div>
+          <div style="font-weight:800;font-size:20px;color:#00A4FF;letter-spacing:1px" id="waitAccountNumber">5XXXXXXXXX</div>
+          <div style="font-size:12px;margin-top:4px">Amount: <span id="waitAmount" style="font-weight:800;color:var(--brand)">₦20,000</span></div>
+          <div style="font-size:11px">Ref: <span id="waitRef" style="font-weight:700">SLT/001</span></div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin:12px 0">
+          <div class="skeleton" style="width:20px;height:20px;border-radius:50%"></div>
+          <span style="font-size:12px;color:var(--text-soft)">Moniepoint Webhook dey wait... Auto trap once money enter</span>
+        </div>
+        <div style="font-size:10px;color:var(--text-faint)">API: POST /api/v2/bank-transfer/reserved-accounts/ • Webhook URL: /api/webhook/moniepoint • Once pay webhook enter student details payment - Rule 50 Return Fast</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button id="closeWaitModalBtn" type="button" class="btn" style="flex:1;background:transparent;border:1px solid var(--border)">Cancel</button>
+        <button id="checkPaymentBtn" type="button" class="btn btn-primary" style="flex:1;background:#00A4FF">Check Now</button>
+      </div>
+      <div id="waitSuccess" style="display:none;margin-top:12px;padding:10px;background:#0abf5320;border:1px solid #0abf5330;border-radius:10px;color:#0abf53;font-weight:700">✅ Payment Successful! Auto updated student payment details</div>
+    </div>
+  </div>
+</div>
+
+  <!-- MODULES - supabase.js backup + app.js FIXED (no more ./supabase.js import) -->
+  <script type="module" src="./supabase.js"></script>
+  <script type="module" src="./app.js"></script>
+  <!-- POLISH RULES - JS INJECT - NO TOUCH HTML -->
+  <script>
+    window.addEventListener('error', function(e){
+      var b=document.getElementById('errorBoundary'); var m=document.getElementById('errorMsg');
+      if(b){b.classList.add('is-visible'); if(m) m.textContent=e.message;}
+    });
+    document.body.dataset.tenant='SOLIDLT_444';
+    window.FEATURE_FLAGS={students:true,fees:true,payments:true,attendance:true,realtime:true,tenant:"SOLIDLT_444"};
+    console.log("[PRO] SOLIDLT_444 FIXED - Old working file + Rules, Bug fixed");
+  </script>
+</body>
+</html>
