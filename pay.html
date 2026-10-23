@@ -75,7 +75,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 // Atomic Design Principle - Where Brick is Structure - Each brick runs separately - Easy to fix - One change no break - 206 Rules where needed
 const CONFIG = {
   SUPABASE_URL: "https://pslllwdefbmtnnsbxevs.supabase.co", // Real URL from your supabase.js - No secret - Rule 8 No Magic Values
-  SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.[STRIPPED 127 bytes].4m-cACcs_pqHSIgukjFP4Xh4ia5Y2yv8QBwqbi4aCvA", // Real anon key from your supabase.js - Public safe - RLS anon SELECT id_number,full_name,program only - No balance phone email leak - No secret leak front page - Rule 46 + 202 + 206 - Atomic - GitHub safe - Never commit sk_
+  SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBzbGxsd2RlZmJtdG5uc2J4ZXZzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg4NjUyMTQsImV4cCI6MjEwNDQ0MTIxNH0.4m-cACcs_pqHSIgukjFP4Xh4ia5Y2yv8QBwqbi4aCvA", // Real anon key from your supabase.js - Public safe - RLS anon SELECT id_number,full_name,program only - No balance phone email leak - No secret leak front page - Rule 46 + 202 + 206 - Atomic - GitHub safe - Never commit sk_
   TENANT: "SOLIDLT_444", // Rule 57 Multi-tenancy Isolation tenant_id on every table - Atomic - Easy edit tenant
   CREATE_CHECKOUT_URL: "https://pslllwdefbmtnnsbxevs.supabase.co/functions/v1/create-squad-checkout", // Edge Function Payment Link GTBank No DVA No CAC - No secret in frontend - Only URL - Secret stays in Edge Function Deno.env.get - Rule 60 + 199 CORS - Atomic
   REGEX_SLT: /^SLT\/\d{3}$/i, // Rule 12 Validate + Parse + Sanitize - sanitizeRegNo() SLT/001 canonical - Atomic - Easy edit regex
@@ -312,3 +312,5 @@ function initSuccess(els, state) {
 
 </body>
 </html>
+<!-- trigger deploy create-squad-checkout -->
+
